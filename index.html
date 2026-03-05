@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Equivoca Capital Game</title>
+<title>Equivoca Capital Strategy Game</title>
 
 <style>
 
@@ -16,30 +16,27 @@ margin-top:80px;
 button{
 padding:15px 30px;
 font-size:18px;
-margin:15px;
+margin:20px;
 cursor:pointer;
+border:none;
+border-radius:6px;
 }
+
+.clarify{background:#2ecc71;}
+.equivocate{background:#e63946;}
 
 #capital{
 font-size:28px;
 margin:20px;
 }
 
-.segment{
-width:18px;
-height:18px;
-background:#2ecc71;
-border-radius:50%;
-position:absolute;
-}
-
-#game{
-position:relative;
-height:200px;
+#centipede{
+margin-top:30px;
+font-size:28px;
+letter-spacing:4px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -49,10 +46,10 @@ height:200px;
 
 <div id="capital">Capital: $1,000,000</div>
 
-<div id="game"></div>
+<div id="centipede">●●●●</div>
 
-<button onclick="clarify()">Clarify</button>
-<button onclick="equivocate()">Equivocate</button>
+<button class="clarify" onclick="clarify()">Clarify Decision</button>
+<button class="equivocate" onclick="equivocate()">Equivocate</button>
 
 <p id="msg"></p>
 
@@ -60,34 +57,24 @@ height:200px;
 
 let capital = 1000000
 let risk = 0
-let game = document.getElementById("game")
-let chain=[]
+let length = 4
 
 function update(){
-document.getElementById("capital").innerText=
+
+document.getElementById("capital").innerText =
 "Capital: $" + capital.toLocaleString()
-}
 
-function grow(){
-
-let dot=document.createElement("div")
-dot.className="segment"
-
-dot.style.left=(chain.length*22+50)+"px"
-dot.style.top="100px"
-
-game.appendChild(dot)
-
-chain.push(dot)
+document.getElementById("centipede").innerText =
+"●".repeat(length)
 
 }
 
 function clarify(){
 
-capital+=150000
-grow()
+capital += 150000
+length++
 
-document.getElementById("msg").innerText=
+document.getElementById("msg").innerText =
 "Clarity created steady gains."
 
 update()
@@ -96,29 +83,27 @@ update()
 
 function equivocate(){
 
-capital+=350000
-risk+=0.2
-grow()
+capital += 350000
+risk += 0.2
+length++
 
-if(Math.random()<risk){
+if(Math.random() < risk){
 
-capital*=0.4
+capital = Math.floor(capital * 0.4)
 
-document.getElementById("msg").innerText=
+document.getElementById("msg").innerText =
 "Ambiguity triggered a collapse."
 
 }else{
 
-document.getElementById("msg").innerText=
-"Risk paid off."
+document.getElementById("msg").innerText =
+"Risk paid off this round."
 
 }
 
 update()
 
 }
-
-for(let i=0;i<4;i++) grow()
 
 </script>
 
