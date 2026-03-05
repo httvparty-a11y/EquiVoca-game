@@ -2,188 +2,26 @@
 <html>
 <head>
 <title>Equivoca Capital Strategy Game</title>
-
-<style>
-
-body{
-background:#0b0b0b;
-color:white;
-font-family:Arial;
-text-align:center;
-margin:0;
-overflow:hidden;
-}
-
-h1{
-margin-top:30px;
-font-size:42px;
-}
-
-#capital{
-font-size:28px;
-margin:20px;
-}
-
-#gameArea{
-position:relative;
-width:100%;
-height:300px;
-margin-top:40px;
-overflow:hidden;
-}
-
-.segment{
-width:18px;
-height:18px;
-background:#2ecc71;
-border-radius:50%;
-position:absolute;
-}
-
-.chip{
-font-size:28px;
-position:absolute;
-animation:drop 0.6s ease;
-}
-
-@keyframes drop{
-0%{transform:translateY(-80px); opacity:0;}
-100%{transform:translateY(0); opacity:1;}
-}
-
-button{
-padding:14px 28px;
-font-size:18px;
-margin:20px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-.clarify{background:#2ecc71;}
-.equivocate{background:#e63946;}
-
-#message{
-font-size:18px;
-margin-top:10px;
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <h1>Equivoca Capital</h1>
-<p>Clarity vs Ambiguity Strategy Simulation</p>
+<p>Clarity vs Ambiguity Simulation</p>
 
-<div id="capital">Capital: $1,000,000</div>
+<div id="capital">$1,000,000</div>
 
-<div id="gameArea"></div>
+<div id="game"></div>
 
-<button class="clarify" onclick="clarify()">Clarify Decision</button>
-<button class="equivocate" onclick="equivocate()">Equivocate</button>
+<div class="buttons">
+<button onclick="clarify()">Clarify</button>
+<button onclick="equivocate()">Equivocate</button>
+</div>
 
 <p id="message"></p>
 
-<script>
-
-let capital = 1000000
-let risk = 0
-let centipede = []
-let x = 100
-let y = 150
-
-const area = document.getElementById("gameArea")
-
-function updateCapital(){
-
-document.getElementById("capital").innerText =
-"Capital: $" + capital.toLocaleString()
-
-}
-
-function addSegment(){
-
-let seg = document.createElement("div")
-seg.className="segment"
-
-x += 20
-
-seg.style.left = x + "px"
-seg.style.top = y + "px"
-
-area.appendChild(seg)
-
-centipede.push(seg)
-
-}
-
-function addChip(){
-
-let chip = document.createElement("div")
-
-chip.className="chip"
-
-chip.innerText = "🪙"
-
-chip.style.left = (50 + Math.random()*300) + "px"
-chip.style.top = "40px"
-
-area.appendChild(chip)
-
-}
-
-function clarify(){
-
-capital += 150000
-
-addSegment()
-addChip()
-
-document.getElementById("message").innerText =
-"Clarity compounded steady returns."
-
-updateCapital()
-
-}
-
-function equivocate(){
-
-capital += 400000
-risk += .18
-
-addSegment()
-addChip()
-
-if(Math.random() < risk){
-
-capital = Math.floor(capital * .35)
-
-document.getElementById("message").innerText =
-"Ambiguity triggered volatility."
-
-}else{
-
-document.getElementById("message").innerText =
-"Risk paid off… this round."
-
-}
-
-updateCapital()
-
-}
-
-function init(){
-
-for(let i=0;i<6;i++){
-addSegment()
-}
-
-}
-
-init()
-
-</script>
+<script src="game.js"></script>
 
 </body>
 </html>
