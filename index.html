@@ -1,171 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Equivoca Capital Strategy Game</title>
+<title>Equivoca Capital Game</title>
 
 <style>
 
 body{
-background:#0b0b0b;
+background:#0a0a0a;
 color:white;
 font-family:Arial;
 text-align:center;
-margin:0;
-overflow:hidden;
+margin-top:80px;
 }
 
-h1{
-margin-top:30px;
-font-size:40px;
+button{
+padding:15px 30px;
+font-size:18px;
+margin:15px;
+cursor:pointer;
 }
 
 #capital{
-font-size:26px;
+font-size:28px;
 margin:20px;
 }
 
-#game{
-position:relative;
-height:300px;
-margin-top:40px;
-}
-
 .segment{
-width:20px;
-height:20px;
-background:#1db954;
+width:18px;
+height:18px;
+background:#2ecc71;
 border-radius:50%;
 position:absolute;
 }
 
-button{
-padding:14px 28px;
-font-size:18px;
-margin:20px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-.clarify{
-background:#2ecc71;
-color:white;
-}
-
-.equivocate{
-background:#e63946;
-color:white;
-}
-
-#message{
-margin-top:10px;
-font-size:18px;
+#game{
+position:relative;
+height:200px;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <h1>Equivoca Capital</h1>
-<p>Clarity vs Ambiguity Strategy Game</p>
+<p>Clarity vs Ambiguity</p>
 
 <div id="capital">Capital: $1,000,000</div>
 
 <div id="game"></div>
 
-<button class="clarify" onclick="clarify()">Clarify Decision</button>
-<button class="equivocate" onclick="equivocate()">Equivocate</button>
+<button onclick="clarify()">Clarify</button>
+<button onclick="equivocate()">Equivocate</button>
 
-<p id="message"></p>
+<p id="msg"></p>
 
 <script>
 
 let capital = 1000000
 let risk = 0
-let centipede = []
-let gameArea = document.getElementById("game")
+let game = document.getElementById("game")
+let chain=[]
 
-function updateCapital(){
-
-document.getElementById("capital").innerText =
+function update(){
+document.getElementById("capital").innerText=
 "Capital: $" + capital.toLocaleString()
-
-}
-
-function createSegment(x,y){
-
-let seg = document.createElement("div")
-seg.className="segment"
-seg.style.left=x+"px"
-seg.style.top=y+"px"
-
-gameArea.appendChild(seg)
-
-centipede.push(seg)
-
 }
 
 function grow(){
 
-let last = centipede[centipede.length-1]
+let dot=document.createElement("div")
+dot.className="segment"
 
-createSegment(
-parseInt(last.style.left)+25,
-parseInt(last.style.top)
-)
+dot.style.left=(chain.length*22+50)+"px"
+dot.style.top="100px"
+
+game.appendChild(dot)
+
+chain.push(dot)
 
 }
 
 function clarify(){
 
-capital += 150000
-
+capital+=150000
 grow()
 
-document.getElementById("message").innerText =
-"Clarity compounds steady gains."
+document.getElementById("msg").innerText=
+"Clarity created steady gains."
 
-updateCapital()
+update()
 
 }
 
 function equivocate(){
 
-capital += 350000
-risk += .15
-
+capital+=350000
+risk+=0.2
 grow()
 
-if(Math.random() < risk){
+if(Math.random()<risk){
 
-capital = capital * .3
+capital*=0.4
 
-document.getElementById("message").innerText =
-"Ambiguity triggered volatility."
+document.getElementById("msg").innerText=
+"Ambiguity triggered a collapse."
 
 }else{
 
-document.getElementById("message").innerText =
-"Risk paid off… this time."
+document.getElementById("msg").innerText=
+"Risk paid off."
 
 }
 
-updateCapital()
+update()
 
 }
 
-function init(){
-
-for(let i=0;i<5;i++){
-
-createSegment(100+i*25,150)
-
-}
-
-}
-
-init()
+for(let i=0;i<4;i++) grow()
 
 </script>
 
