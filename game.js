@@ -1,78 +1,67 @@
 let capital = 1000000
 let risk = 0
-
-let game = document.getElementById("game")
+let game = document.getElementById("gameArea")
 let chain = []
+let x = 50
+let y = 150
+
+const capitalDiv = document.getElementById("capital")
+const messageDiv = document.getElementById("message")
+const intro = document.getElementById("intro")
+const gameContainer = document.getElementById("gameContainer")
+
+document.getElementById("startBtn").onclick = () => {
+  intro.style.display = "none"
+  gameContainer.style.display = "block"
+  init()
+}
 
 function updateCapital(){
-document.getElementById("capital").innerText =
-"$" + capital.toLocaleString()
+  capitalDiv.innerText = "$" + capital.toLocaleString()
 }
 
-function grow(){
-
-let seg = document.createElement("div")
-seg.className="segment"
-
-seg.style.left = (chain.length*20 + 120) + "px"
-seg.style.top = "120px"
-
-game.appendChild(seg)
-chain.push(seg)
-
+function addSegment(){
+  let seg = document.createElement("div")
+  seg.className="segment"
+  x += 25
+  seg.style.left = x + "px"
+  seg.style.top = y + "px"
+  game.appendChild(seg)
+  chain.push(seg)
 }
 
-function chip(){
-
-let c = document.createElement("div")
-c.className="chip"
-c.innerText="🪙"
-
-c.style.left = (Math.random()*300 + 80) + "px"
-c.style.top="40px"
-
-game.appendChild(c)
-
+function addChip(){
+  let chip = document.createElement("div")
+  chip.className="chip"
+  chip.innerText="🪙"
+  chip.style.left = (Math.random()*300 + 50) + "px"
+  chip.style.top="50px"
+  game.appendChild(chip)
 }
 
 function clarify(){
-
-capital += 150000
-grow()
-chip()
-
-document.getElementById("message").innerText =
-"Clarity compounds steady returns."
-
-updateCapital()
-
+  capital += 150000
+  addSegment()
+  addChip()
+  messageDiv.innerText="Clarity compounds steady returns."
+  updateCapital()
 }
 
 function equivocate(){
-
-capital += 350000
-risk += .18
-grow()
-chip()
-
-if(Math.random() < risk){
-
-capital = Math.floor(capital * .4)
-
-document.getElementById("message").innerText =
-"Ambiguity triggered volatility."
-
-}else{
-
-document.getElementById("message").innerText =
-"Risk paid off."
-
+  capital += 400000
+  risk += 0.18
+  addSegment()
+  addChip()
+  if(Math.random() < risk){
+    capital = Math.floor(capital * 0.35)
+    messageDiv.innerText="Ambiguity triggered volatility."
+  } else {
+    messageDiv.innerText="Risk paid off."
+  }
+  updateCapital()
 }
 
-updateCapital()
-
-}
-
-for(let i=0;i<5;i++){
-grow()
+function init(){
+  for(let i=0;i<5;i++) addSegment()
+  updateCapital()
 }
